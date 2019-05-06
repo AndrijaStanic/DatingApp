@@ -15,7 +15,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class UserService {
-  baseUrl = environment;
+  baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
