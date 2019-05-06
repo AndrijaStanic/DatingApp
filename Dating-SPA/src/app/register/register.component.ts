@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
+import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +24,6 @@ export class RegisterComponent implements OnInit {
       this.alertify.error(error);
     });
   }
-
   cancel() {
     this.cancelRegister.emit(false);
   }
