@@ -1,5 +1,5 @@
 import { Photo } from './photo';
-
+//Entity User, uses class Photo
 export interface User {
     id: number;
     username: string;
