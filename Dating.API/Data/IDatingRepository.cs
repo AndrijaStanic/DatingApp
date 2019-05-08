@@ -11,5 +11,7 @@ namespace Dating.API.Data
          Task<bool> SaveAll(); //false=no changers, true=changes
          Task<IEnumerable<User>> GetUsers(); //lists all users
          Task<User> GetUser(int id); //lists a single user tracked by id
+         Task<Photo> GetPhoto(int id); //shows pics
+         Task<Photo> GetMainPhotoForUser(int userId); //gets main photo
     }
 }
