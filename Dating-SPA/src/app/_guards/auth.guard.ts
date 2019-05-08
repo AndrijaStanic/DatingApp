@@ -3,12 +3,13 @@ import { CanActivate, Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 
-
+//navigates us back to homepage if we try to access unauthorizied section
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService) {}
+  constructor(private authService: AuthService, private router: Router,
+              private alertify: AlertifyService) {}
   canActivate(): boolean {
     if (this.authService.loggedIn()) {
     return true;
