@@ -13,12 +13,17 @@ export class UserService {
   baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
-
+  //shows all users
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl + 'users');
 
   }
+  //shows single user by id
   getUser(id): Observable<User> {
     return this.http.get<User>(this.baseUrl + 'users/' + id);
+  }
+  //"put"s new info (updates user)
+  updateUser(id: number, user: User) {
+    return this.http.put(this.baseUrl + 'users/' + id, user);
   }
 }

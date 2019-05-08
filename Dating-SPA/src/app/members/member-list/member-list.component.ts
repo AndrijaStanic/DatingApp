@@ -18,12 +18,4 @@ export class MemberListComponent implements OnInit {
       this.users = data ['users'];
     });
   }
-  /* loadUsers()  {
-    this.userSerivce.getUsers().subscribe((users: User[]) => {
-      this.users = users;
-    }, error => {
-      this.alertify.error(error);
-    });
-  } */
-
 }
