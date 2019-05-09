@@ -2,7 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
-import { NgModel } from '@angular/forms';
+import { NgModel, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { validateConfig } from '@angular/router/src/config';
 
 @Component({
   selector: 'app-register',
@@ -12,17 +13,38 @@ import { NgModel } from '@angular/forms';
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
   model: any = {};
-  constructor(private authService: AuthService, private alertify: AlertifyService) { }
+  registerForm: FormGroup;
+
+  constructor(private authService: AuthService, private alertify: AlertifyService, 
+              private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.createRegisterForm();
+  }
+
+  createRegisterForm() {
+    this.registerForm = this.fb.group({
+      username: ['', Validators.required],
+      knownAs: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      city: ['', Validators.required],
+      country: ['', Validators.required],
+      password: ['', Validators.required, Validators.minLength(4), Validators.maxLength(14)],
+      confirmPassword: ['', Validators.required]
+    }, {validator: this.passwordMatchValidator});
+  }
+
+  passwordMatchValidator(g: FormGroup) {
+    return g.get('password').value === g.get('confirmPassword').value ? null : {'mismatch': true};
   }
 
   register() {
-    this.authService.register(this.model).subscribe(() => {
+    /* this.authService.register(this.model).subscribe(() => {
       this.alertify.success('reg succcesful');
     }, error => {
       this.alertify.error(error);
-    });
+    }); */
+    console.log(this.registerForm.value);
   }
   cancel() {
     this.cancelRegister.emit(false);

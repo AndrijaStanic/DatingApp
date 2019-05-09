@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { JwtModule } from '@auth0/angular-jwt';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
 
@@ -57,6 +57,7 @@ export function tokenGetter() {
       AppRoutingModule,
       HttpClientModule,
       FormsModule,
+      ReactiveFormsModule,
       BsDropdownModule.forRoot(),
       TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
