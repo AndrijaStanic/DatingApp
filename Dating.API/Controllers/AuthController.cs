@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Dating.API.Data;
 using Dating.API.Dtos;
 using Dating.API.Models;
@@ -18,22 +19,27 @@ namespace Dating.API.Controllers
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
-        public AuthController(IAuthRepository repo, IConfiguration config)
+        private readonly IMapper _mapper;
+
+        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
         {
+            
+            _mapper = mapper;
             _config = config;
             _repo = repo;
+
         }
         //http://localhost:5000/api/auth/register
         [HttpPost("register")]
         public async Task<ActionResult> Register(UserForRegister userForRegister)
         {
-            
-            if(!ModelState.IsValid)
+
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             userForRegister.Username = userForRegister.Username.ToLower();
-            if(await _repo.UserExists(userForRegister.Username))
+            if (await _repo.UserExists(userForRegister.Username))
                 return BadRequest("Username alredy exists");
-            
+
             var userToCreate = new User
             {
                 Username = userForRegister.Username
@@ -43,13 +49,13 @@ namespace Dating.API.Controllers
             return StatusCode(201);
         }
         //http://localhost:5000/api/auth/login
-       [HttpPost("login")]
-       public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
             var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
-            if(userFromRepo == null)
+            if (userFromRepo == null)
                 return Unauthorized();
-            
+
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
@@ -66,8 +72,11 @@ namespace Dating.API.Controllers
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return Ok(new {
-                token = tokenHandler.WriteToken(token)
+            var user = _mapper.Map<UserForListDto>(userFromRepo);
+             return Ok(new
+            {
+                token = tokenHandler.WriteToken(token),
+                user
             });
         }
     }
