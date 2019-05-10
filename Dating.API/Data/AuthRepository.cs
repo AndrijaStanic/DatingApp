@@ -12,6 +12,7 @@ namespace Dating.API.Data
         {
             _context = context;
         }
+        //metoda za login, provjerava da li user postoji i pregledava password
         public async Task<User> Login(string username, string password)
         {
             var user = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(x => x.Username == username); 
@@ -24,6 +25,7 @@ namespace Dating.API.Data
             return user;
         }
 
+        //metoda za detaljnu provjeru passworda sa hasom
         private bool VerifyPasswordHash(string password, byte[] passwordSalt, byte[] passwordHash)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
@@ -37,7 +39,7 @@ namespace Dating.API.Data
                 return true;
             }
         }
-
+        //metoda za registraciju, dodaje pasw hash i salt i sprema podatke
         public async Task<User> Register(User user, string password)
         {
             byte[] passwordHash, passwordSalt;
@@ -50,7 +52,7 @@ namespace Dating.API.Data
             return user;
 
         }
-
+        //stvara password hash
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
@@ -59,7 +61,7 @@ namespace Dating.API.Data
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
-
+        //provjera postojanja usera (username)
         public async Task<bool> UserExists(string username)
         {
             if(await _context.Users.AnyAsync(x => x.Username == username))

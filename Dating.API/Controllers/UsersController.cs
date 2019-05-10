@@ -27,10 +27,14 @@ namespace Dating.API.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
         {
-            var users = await _repo.GetUsers();
+            var users = await _repo.GetUsers(userParams);
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+
+            Response.AddPagination(users.CurrentPage, users.PageSize,
+                users.TotalCount, users.TotalPages);
+
             return Ok(usersToReturn);
         }
         [HttpGet("{id}", Name="GetUser")]
@@ -43,14 +47,14 @@ namespace Dating.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
         {
-            //check if the user is current user
+            //provjerava jeli to currentUser aka imamo li prava
             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
                 return Unauthorized(); 
             }
             var userFromRepo = await _repo.GetUser(id);
             _mapper.Map(userForUpdateDto, userFromRepo);
-            if (await _repo.SaveAll()) //if saving is successfull return no content otherwise throw Excep
+            if (await _repo.SaveAll()) //ako je uspjesno baci nocontent ako nije baci excep
             {
                 return NoContent();
             }

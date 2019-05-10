@@ -1,5 +1,6 @@
 namespace Dating.API.Dtos
 {
+    //user koji ce se updatat
     public class UserForUpdateDto
     {
         public string Introduction { get; set; }

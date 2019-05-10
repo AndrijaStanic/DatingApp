@@ -4,6 +4,7 @@ using Dating.API.Models;
 
 namespace Dating.API.Dtos
 {
+    //svi atributi usera bez pass i hasa + key sa kolekcijom slika
     public class UserForDetailedDto
     {
         public int Id { get; set; }

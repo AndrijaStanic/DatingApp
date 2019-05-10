@@ -9,7 +9,7 @@ namespace Dating.API.Helpers
 {
     public class LogUserActivity : IAsyncActionFilter
     {
-        //sets user activity
+        //Postavlja user activity
         public async Task OnActionExecutionAsync(ActionExecutingContext context, 
             ActionExecutionDelegate next)
         {

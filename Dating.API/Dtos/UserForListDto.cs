@@ -2,6 +2,7 @@ using System;
 
 namespace Dating.API.Dtos
 {
+    //user koji ispisujemo nazad
     public class UserForListDto
     {
         public int Id { get; set; }

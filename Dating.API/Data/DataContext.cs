@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dating.API.Data
 {
+    //stvara entitete u bazi
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options){}

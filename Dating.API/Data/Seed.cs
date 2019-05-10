@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 namespace Dating.API.Data
 {
+    //seed az dodavanje random usera sa interneta
     public class Seed
     {
         private readonly DataContext _context;

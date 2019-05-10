@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dating.API.Dtos
 {
+    //user za registracijsku formu
     public class UserForRegister
     {
         [Required]

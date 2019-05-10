@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Dating.API.Dtos
 {
+    //slika koja se uploda u bazu
     public class PhotoForCreationDto
     {
         public string Url { get; set; }

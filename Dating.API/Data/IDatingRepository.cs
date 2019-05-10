@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dating.API.Helpers;
 using Dating.API.Models;
 
 namespace Dating.API.Data
 {
+    //interface za komunikaciju entiteta sa bazom
     public interface IDatingRepository
     {
-         void Add<T>(T entity) where T: class; //adding User/Photo -class
-         void Delete<T>(T entity) where T: class; //deleting User/Photo -class
-         Task<bool> SaveAll(); //false=no changers, true=changes
-         Task<IEnumerable<User>> GetUsers(); //lists all users
-         Task<User> GetUser(int id); //lists a single user tracked by id
-         Task<Photo> GetPhoto(int id); //shows pics
-         Task<Photo> GetMainPhotoForUser(int userId); //gets main photo
+         void Add<T>(T entity) where T: class; //dodaje usera/sliku u memoriju
+         void Delete<T>(T entity) where T: class; //brise usera ili sliku iz memorije
+         Task<bool> SaveAll(); //spremni ako je true, inace: nista
+         Task<PagedList<User>> GetUsers(UserParams userParams); //lista svih usera, dohavcena iz baze
+         Task<User> GetUser(int id); //dohavca usera iz baze po Id-u
+         Task<Photo> GetPhoto(int id); //dohavca sliku
+         Task<Photo> GetMainPhotoForUser(int userId); //dohvaca glavnu sliku
     }
 }

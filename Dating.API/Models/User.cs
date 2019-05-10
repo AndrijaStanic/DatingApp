@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Dating.API.Models
 {
+    //svi atributi usera u bazi
     public class User
     {
         public int Id { get; set; }
@@ -19,7 +20,7 @@ namespace Dating.API.Models
         public string Interests { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        public ICollection<Photo> Photos { get; set; }
+        public ICollection<Photo> Photos { get; set; } //kolekcija slika od ovog usera
         
     }
 }

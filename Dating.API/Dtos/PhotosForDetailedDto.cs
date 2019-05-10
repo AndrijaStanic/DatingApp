@@ -2,6 +2,7 @@ using System;
 
 namespace Dating.API.Dtos
 {
+    //detaljni opis slike
     public class PhotosForDetailedDto
     {
         public int Id { get; set; }

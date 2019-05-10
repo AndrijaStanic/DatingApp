@@ -63,7 +63,7 @@ namespace Dating.API.Controllers
                     var uploadParams = new ImageUploadParams()
                     {
                         File = new FileDescription(file.Name, stream),
-                        Transformation = new Transformation().Width(500) //crops big images around the face
+                        Transformation = new Transformation().Width(500) //rize sliku 500*500 oko lica ("Face")
                             .Height(500).Crop("fill").Gravity("face")
                     };
                 uploadResult = _cloudinary.Upload(uploadParams);
@@ -73,10 +73,10 @@ namespace Dating.API.Controllers
             photoForCreationDto.Url = uploadResult.Uri.ToString();
             photoForCreationDto.PublicId = uploadResult.PublicId;
             var photo = _mapper.Map<Photo>(photoForCreationDto);
-            if (!userFromRepo.Photos.Any(u => u.IsMain)) //checks if user has any photos, if he does not set it as main
+            if (!userFromRepo.Photos.Any(u => u.IsMain)) //provjerava imamo li slika, ako nemamom stavi je za main
                 photo.IsMain = true;
             
-            userFromRepo.Photos.Add(photo); //save photo
+            userFromRepo.Photos.Add(photo); //sprema sliku
             
             if (await _repo.SaveAll())
             {
@@ -89,12 +89,12 @@ namespace Dating.API.Controllers
         [HttpPost("{id}/setMain")]
         public async Task<IActionResult> SetMainPhoto(int userId, int id)
         {   
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) //check if user is authorized
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) //provjerava imamo li prava
             {
                 return Unauthorized();
             }
             var user = await _repo.GetUser(userId);
-            if (!user.Photos.Any(p => p.Id == id)) //checks if we are indeed chaning our own photos
+            if (!user.Photos.Any(p => p.Id == id)) //provjerava jeli to nasa slika
             {
                 return Unauthorized();
             }
@@ -115,12 +115,12 @@ namespace Dating.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePhoto(int userId, int id)
         {
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) //check if user is authorized
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) //provjerava imamo li prava 
             {
                 return Unauthorized();
             }
             var user = await _repo.GetUser(userId);
-            if (!user.Photos.Any(p => p.Id == id)) //checks if we are indeed chaning our own photos
+            if (!user.Photos.Any(p => p.Id == id)) //provjerava jeli to nasa slika
             {
                 return Unauthorized();
             }
@@ -129,7 +129,7 @@ namespace Dating.API.Controllers
             {
                 return BadRequest("You cannot delete your main photo!"); 
             }
-            if (photoFromRepo.PublicId != null) //checks if our photo has id
+            if (photoFromRepo.PublicId != null) //provjerava ima li ta slika id
             {
                 var deleteParams = new DeletionParams(photoFromRepo.PublicId);
                 var result = _cloudinary.Destroy(deleteParams);

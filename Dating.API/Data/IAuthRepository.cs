@@ -3,6 +3,7 @@ using Dating.API.Models;
 
 namespace Dating.API.Data
 {
+    //interface za komunikaciju usera s bazom
     public interface IAuthRepository
     {
         Task<User> Register(User user, string password);

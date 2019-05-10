@@ -5,6 +5,7 @@ using Dating.API.Models;
 
 namespace Dating.API.Helpers
 {
+    //nuGet za mampiranje iz jednog objekta u drugi
     public class AutoMapperProfiles : Profile
     {
         public AutoMapperProfiles()
@@ -17,12 +18,13 @@ namespace Dating.API.Helpers
                     opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
                 });
             CreateMap<User, UserForDetailedDto>()
-                .ForMember(dest => dest.PhotoUrl, opt => {
+                .ForMember(dest => dest.PhotoUrl, opt => {  
                     opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url);
                 })
-                .ForMember(dest => dest.Age, opt => {
+                .ForMember(dest => dest.Age, opt => {  //kalkulira godine iz dateofbirth da danasnjeg dana i mapira u age
                     opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
                 });
+            //CreateMap<iz cega mapiramo, u sta mapiramo>();
             CreateMap<Photo, PhotosForDetailedDto>();
             CreateMap<UserForUpdateDto, User>();
             CreateMap<Photo, PhotoForReturnDto>();
