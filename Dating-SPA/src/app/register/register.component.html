@@ -42,7 +42,8 @@
       class="form-control" 
       placeholder="Date of Birth" 
       formControlName="dateOfBirth" 
-      type="date">
+      type="text"
+      bsDatepicker [bsConfig]="bsConfig">
     <div class="invalid-feedback"
       *ngIf="registerForm.get('dateOfBirth').touched && registerForm.get('dateOfBirth').hasError('required')">
       Date of Birth is required
