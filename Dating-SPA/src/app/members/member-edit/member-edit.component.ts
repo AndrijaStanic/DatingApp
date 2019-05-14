@@ -34,7 +34,7 @@ export class MemberEditComponent implements OnInit {
     });
     this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
-  //gets token and updates user or alerts if it does not
+  // dohavti token i updata usera ako moze
   updateUser() {
     this.userService.updateUser(this.authService.decodedToken.nameid, this.user).subscribe(next => {
       this.alertify.success('Profile updated successfully');
