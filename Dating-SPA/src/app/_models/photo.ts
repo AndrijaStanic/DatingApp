@@ -1,4 +1,4 @@
-//Entity Photo
+// Entity Photo
 export interface Photo {
     id: number;
     url: string;
