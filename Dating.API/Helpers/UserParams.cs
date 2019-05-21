@@ -12,6 +12,10 @@ namespace Dating.API.Helpers
             // stavlja je na maxPageSize ako je user odabra broj vise od maxPageSize ili na odabrani value
         }
         
-
+        public int UserId { get; set; }
+        public string Gender { get; set; }
+        public int MinAge { get; set; } = 18;
+        public int MaxAge { get; set; } = 99;
+        public string OrderBy { get; set; }
     }
 }
