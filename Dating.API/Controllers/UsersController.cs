@@ -6,6 +6,7 @@ using AutoMapper;
 using Dating.API.Data;
 using Dating.API.Dtos;
 using Dating.API.Helpers;
+using Dating.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -74,6 +75,36 @@ namespace Dating.API.Controllers
                 return NoContent();
             }
             throw new Exception($"Updating user {id} failed on save!");
+        }
+
+        [HttpPost("{id}/{like}/{recipientId}")]
+        public async Task<IActionResult> LikeUser(int id, int recipientId)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) // provjeri jeli user autoriziran
+            {
+                return Unauthorized();
+            }
+            var like = await _repo.GetLike(id, recipientId); // ako postoji stavi like object u to ak one bit ce null
+            if (like != null)
+            {
+                return BadRequest("You alredy like this user!");
+            }
+            if (await _repo.GetUser(recipientId) == null) // gleda jeli postoji id
+            {
+                return NotFound();
+            }
+            like = new Like // stvara novi like
+            {
+                LikerId = id,
+                LikeeId = recipientId
+            };
+
+            _repo.Add<Like>(like); // dodaje ga u repo
+            if (await _repo.SaveAll())
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }
