@@ -23,6 +23,8 @@ namespace Dating.API.Models
         public ICollection<Photo> Photos { get; set; } //kolekcija slika od ovog usera
         public ICollection<Like> Likers { get; set; }
         public ICollection<Like> Likees { get; set; }
+        public ICollection<Message> MessagesSent { get; set; }
+        public ICollection<Message> MessagesReceived { get; set; }
         
     }
 }

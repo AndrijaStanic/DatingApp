@@ -16,5 +16,8 @@ namespace Dating.API.Data
          Task<Photo> GetPhoto(int id); //dohavca sliku
          Task<Photo> GetMainPhotoForUser(int userId); //dohvaca glavnu sliku
          Task<Like> GetLike(int userId, int recipientId); //vraca likove
+         Task<Message> GetMessage(int id); // vraca poruku
+         Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams); // vraca sve poruke usera
+         Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId); // razgovor usera
     }
 }

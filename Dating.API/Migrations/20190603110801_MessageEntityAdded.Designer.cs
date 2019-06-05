@@ -4,14 +4,16 @@ using Dating.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Dating.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190603110801_MessageEntityAdded")]
+    partial class MessageEntityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +42,7 @@ namespace Dating.API.Migrations
 
                     b.Property<DateTime?>("DateRead");
 
-                    b.Property<DateTime>("MessageSent");
+                    b.Property<DateTime>("MassageSent");
 
                     b.Property<bool>("RecipientDeleted");
 
@@ -60,7 +62,7 @@ namespace Dating.API.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Massages");
                 });
 
             modelBuilder.Entity("Dating.API.Models.Photo", b =>
@@ -154,12 +156,12 @@ namespace Dating.API.Migrations
             modelBuilder.Entity("Dating.API.Models.Message", b =>
                 {
                     b.HasOne("Dating.API.Models.User", "Recipient")
-                        .WithMany("MessagesReceived")
+                        .WithMany("MassagesReceived")
                         .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Dating.API.Models.User", "Sender")
-                        .WithMany("MessagesSent")
+                        .WithMany("MassagesSent")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
